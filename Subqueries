@@ -11,3 +11,27 @@ SELECT AVG(total_amount_paid.total_amount) AS average
        GROUP BY D.customer_id
        ORDER BY "sum" DESC
        LIMIT 5) AS total_amount_paid;
+
+
+--Find out how many of the top 5 customers are based within each country
+
+SELECT country.country,
+COUNT(DISTINCT customer.customer_id) AS all_customer_count,
+COUNT(DISTICNT country.country) AS top_five_customers,
+FROM
+    (SELECT D.customer_id,
+        SUM(amount)
+        FROM customer A
+        INNER JOIN address B ON A.address_id = B.address_id
+        INNER JOIN city C ON B.city_id = C.city_id
+        INNER JOIN payment D ON A.customer_id = D.customer_id
+        WHERE city IN ('Aurora', 'Tokat', 'Tarsus', 'Atlixco', 'Emeishan', 'Pontianak', 'Shimoga', 'Aparecida de Goinia', 'Zalantun', 'Taguig')
+        GROUP BY D.customer_id
+        ORDER BY "sum" DESC
+        LIMIT 10) AS total_amoutn_paid
+LEFT JOIN customer ON customer.customer_id = customer.customer_id
+LEFT JOIN address ON customer.address_id = address.address_id
+LEFT JOIN city ON address.city_id = city.city_id
+LEFT JOIN country ON city.country_id = country.country_id
+GROUP BY country.country
+ORDER BY COUNT(country.country) DESC;
