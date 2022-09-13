@@ -1,0 +1,3 @@
+SELECT *
+FROM film
+ORDER BY title ASC, release_year DESC, rental_rate ASC
