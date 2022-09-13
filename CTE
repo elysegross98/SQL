@@ -1,0 +1,16 @@
+--Find top 5 customers in top 10 cities
+
+WITH total_amount_paid (customer_id, sum) AS
+(SELECT D.customer_id,
+    SUM(amount)
+    FROM customer A
+    INNER JOIN address B ON A.address_id = B.address_id
+    INNER JOIN city C ON B.city_id = C.city_id
+    INNER JOIN payment D ON A.customer_id = D.customer_id
+    WHERE city IN ('Aurora', 'Tokat', 'Tarsus', 'Atlixco', 'Emeishan', 'Pontianak', 'Shimoga', 'Aparecida de Goinia', 'Zalantun', 'Taguig')
+    GROUP BY D.customer_id
+    ORDER BY "sum" DESC
+    LIMIT 5)
+SELECT AVG(total_amount_paid.sum) AS average
+FROM total_amount_paid;
+
