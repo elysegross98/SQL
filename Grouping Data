@@ -9,4 +9,4 @@ SELECT rating,
     MIN(rental_duration),
     MAX(rental_duration)
 FROM film
-GROUP BY rating
+GROUP BY rating;
