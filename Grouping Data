@@ -1,0 +1,12 @@
+--finding average rental rate for each category
+SELECT rating,
+    AVG(rental_rate)
+FROM film
+GROUP BY rating
+
+--finding minimum and maximum rental durations for each rating category
+SELECT rating,
+    MIN(rental_duration),
+    MAX(rental_duration)
+FROM film
+GROUP BY rating
