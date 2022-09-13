@@ -1,0 +1,27 @@
+-- Finding Top 10 countries for Rockbuster in terms of cutsomer numbers
+    -- I approached this by first looking at what tables I would need to join to get both customer_id and country in the same table. I found I could use address_id from customer table with the address table which has city_id where I could join with the city table which has city_id and country_id. So I joined the country table with these using the country_id. I only needed to select the country column and county the customer_id column, not include all the others. Next, I counted the values of customer_id and used GROUP BY (country). I next sorted by using ORDER BY “count” descending to find the top customer numbers in a country and limited the search to 10 because we are only interested in the top 10.
+
+SELECT D.country,
+       COUNT(customer_id)
+FROM customer A
+INNER JOIN address B ON A.address_id = B.address_id
+INNER JOIN city C on B.city_id = C.city_id
+INNER JOIN country D ON C.country_id = D.country_id
+GROUP BY country
+ORDER BY "count" DESC
+LIMIT 5;
+
+
+
+--Find the Top 10 cities in the countries from above
+
+SELECT C.city,
+       COUNT(customer_id)
+FROM customer A
+INNER JOIN address B ON A.address_id = B.address_id
+INNER JOIN city C on B.city_id = C.city_id
+INNER JOIN country D ON C.country_id = D.country_id
+WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico')
+GROUP BY city
+ORDER BY "count" DESC
+LIMIT 10;
